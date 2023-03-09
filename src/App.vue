@@ -1,64 +1,73 @@
 <script>
+import { trackSlotScopes } from "@vue/compiler-core";
+import Header from "./components/Header.vue";
+import Todos from "./components/Todos.vue";
 
-import Header from './components/Header.vue'
-import Todos from './components/Todos.vue'
-
-export default{
-  name:'App',
+export default {
+  name: "App",
   components: {
     Header,
     Todos,
   },
-  data(){
-    return{
-      todos:[]
+  data() {
+    return {
+      todos: [],
+    };
+  },
+  methods: {
+    deleteTodo(id) {
+      if (confirm("You Sure Mate?")) {
+        this.todos = this.todos.filter((todo) => todo.id !== id);
+      }
+    },
+    toggleReminder(id){
+      this.todos = this.todos.map((todo)=>todo.id === id?{...todo, reminder: !todo.reminder}: todo)
     }
   },
-  created(){
+  created() {
     this.todos = [
       {
-        id:1,
-        title: 'School',
-        day: 'June 2nd',
-        reminder:true
+        id: 1,
+        title: "School",
+        day: "June 2nd",
+        reminder: true,
       },
       {
-        id:2,
-        title: 'Doc',
-        day: 'March 3rd',
-        reminder:true
+        id: 2,
+        title: "Doc",
+        day: "March 3rd",
+        reminder: false,
       },
       {
-        id:3,
-        title: 'Farmers Market',
-        day: 'April 4th',
-        reminder:true
-      }
-    ]
-  }
-}
-
+        id: 3,
+        title: "Farmer's Market",
+        day: "April 4th",
+        reminder: true,
+      },
+    ];
+  },
+};
 </script>
 
 <template>
   <div class="container">
     <Header title="Todos" />
-    <Todos :todos="todos"/>
+    <Todos @toggle-reminder="toggleReminder" @delete-todo="deleteTodo" :todos="todos" />
   </div>
 </template>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
 
-*{
-  box-sizing:border-box;
+* {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
-body{
-  font-family: 'Poppins';
+body {
+  font-family: "Poppins";
 }
-.container{
+.container {
   max-width: 500px;
   margin: 30px auto;
   overflow: auto;
@@ -67,7 +76,7 @@ body{
   border-radius: 2px;
   border: 2px solid crimson;
 }
-.btn{
+.btn {
   display: inline-block;
   border: 2px solid crimson;
   padding: 10px 20px;
@@ -77,19 +86,19 @@ body{
   text-decoration: none;
   font-size: 15px;
   background: white;
-  font-family: 'Poppins';
+  font-family: "Poppins";
 }
-.btn:hover{
+.btn:hover {
   background: crimson;
   color: white;
 }
-.btn:focus{
+.btn:focus {
   outline: none;
 }
-.btn:active{
+.btn:active {
   transform: scale(0.98);
 }
-.btn-block{
+.btn-block {
   display: block;
   width: 100%;
 }

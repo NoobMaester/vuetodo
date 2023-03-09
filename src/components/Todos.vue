@@ -1,6 +1,6 @@
 <template>
     <div v-for="todo in this.todos" :key="todo.id">
-        <Todo :todo="todo"/>
+        <Todo @toggle-reminder="$emit('toggle-reminder', todo.id)" @delete-todo="$emit('delete-todo', todo.id)" :todo="todo"/>
     </div>
 </template>
 
@@ -15,5 +15,6 @@ export default{
     props: {
         todos: Array,
     },
+    emits: ['delete-todo', 'toggle-reminder']
 }
 </script>
