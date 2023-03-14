@@ -1,20 +1,31 @@
 <script>
-import { trackSlotScopes } from "@vue/compiler-core";
+
 import Header from "./components/Header.vue";
 import Todos from "./components/Todos.vue";
+import AddTodo from "./components/AddTodo.vue";
 
 export default {
   name: "App",
   components: {
     Header,
     Todos,
+    AddTodo,
   },
   data() {
     return {
       todos: [],
+      showAddTodo: false,
     };
   },
   methods: {
+    toggleAdd(){
+      this.showAddTodo = !this.showAddTodo
+    },
+    addTodo(todo){
+      console.log(todo);
+      this.todos = [...this.todos, todo]
+    },
+    
     deleteTodo(id) {
       if (confirm("You Sure Mate?")) {
         this.todos = this.todos.filter((todo) => todo.id !== id);
@@ -22,7 +33,7 @@ export default {
     },
     toggleReminder(id){
       this.todos = this.todos.map((todo)=>todo.id === id?{...todo, reminder: !todo.reminder}: todo)
-    }
+    },
   },
   created() {
     this.todos = [
@@ -51,7 +62,10 @@ export default {
 
 <template>
   <div class="container">
-    <Header title="Todos" />
+    <Header @toggle-add="toggleAdd" title= "Todos" :showAddTodo="showAddTodo" />
+    <div v-show="showAddTodo">
+      <AddTodo @add-todo="addTodo"/>
+    </div>
     <Todos @toggle-reminder="toggleReminder" @delete-todo="deleteTodo" :todos="todos" />
   </div>
 </template>

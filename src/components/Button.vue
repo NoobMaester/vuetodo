@@ -1,5 +1,5 @@
 <template>
-  <button @click="onclick" class="btn">{{ text }}</button>
+  <button @click="onClick" class="btn">{{ text }}</button>
 </template>
 
 <script lang="ts">
@@ -10,7 +10,8 @@ export default {
     color: String,
   },
   methods: {
-    onclick(){
+    onClick(){
+      this.$emit('toggle-add')
       console.log('cliick!')
     }
   }
